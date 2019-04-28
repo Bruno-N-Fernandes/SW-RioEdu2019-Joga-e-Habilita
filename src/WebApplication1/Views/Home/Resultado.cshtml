@@ -1,0 +1,23 @@
+﻿@model DiagnosticoComportamental.Questionario
+
+@{
+	ViewBag.Title = "Perfil";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Parabéns @Model.Nome !</p>
+
+<span>
+	<br />
+	Identificamos pelas suas resposta que o seu perfil é:
+	<br />
+
+	@foreach (var perfil in Model?.ObterPerfil())
+	{
+		<div>@perfil</div>
+		<br />
+	}
+
+
+</span>

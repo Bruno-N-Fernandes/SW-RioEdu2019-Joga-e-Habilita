@@ -1,0 +1,62 @@
+﻿@model DiagnosticoComportamental.Questionario
+
+@{
+	ViewBag.Title = "Diagnóstico Gameficado";
+}
+
+	<h2>Diagnóstico Gameficado</h2>
+
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+	<h4>Não há resposta certa ou errada. Selecione a sua verdade!</h4>
+	<hr />
+	<span>@Convert.ToString(ViewBag?.Info ?? "")</span>
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<div class="form-group">
+		@Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.EMail, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	@foreach (var pergunta in Model.Formulario.Perguntas)
+	{
+		<hr />
+		@Html.LabelForModel(pergunta.Descricao);
+
+		<br />
+
+		foreach (var resposta in pergunta.Respostas)
+		{
+			var pId = "p" + pergunta.Id;
+			var rId = resposta.Id.ToString();
+			<fieldset id="@pId">
+				@Html.RadioButton(pId, rId) @resposta.Descricao
+				<br />
+			</fieldset>
+		}
+	}
+
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Enviar" class="btn btn-default" />
+		</div>
+	</div>
+</div>
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
